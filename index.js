@@ -42,6 +42,7 @@ async function run() {
             console.log(newReviewData);
             const query = {
                 name: newReviewData.name,
+                profession: newReviewData.profession,
                 rating: newReviewData.rating,
                 review: newReviewData.review,
             }
