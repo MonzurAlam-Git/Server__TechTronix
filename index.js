@@ -16,6 +16,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 async function run() {
     const servicesCollection = client.db('TechTronix').collection('services');
     const allReviews = client.db('TechTronix').collection('reviews');
+    const ordersCollection = client.db('TechTronix').collection('orders');
     try {
         // display all services 
         app.get('/services', async (req, res) => {
@@ -29,6 +30,25 @@ async function run() {
             const query = { _id: ObjectId(id) }
             const service = await servicesCollection.findOne(query);
             res.send(service);
+        })
+        // get all orders 
+        app.get('/order', async (req, res) => {
+            const orders = await ordersCollection.find().toArray();
+            res.send(orders);
+        })
+
+        // post order 
+        app.post('/orders', async (req, res) => {
+            const orderData = req.body;
+            const query = {
+                name: orderData.name,
+                email: orderData.email,
+                quantity: orderData.quantity,
+                address: orderData.address,
+                phoneNumber: orderData.phoneNumber
+            }
+            const result = await ordersCollection.insertOne(query);
+            console.log(`A document was inserted with the _id: ${result.insertedId}`);
         })
 
         // DISPLAY ALL REVIEWS 
