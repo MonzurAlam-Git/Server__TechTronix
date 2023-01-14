@@ -32,7 +32,7 @@ async function run() {
             res.send(service);
         })
         // get all orders 
-        app.get('/order', async (req, res) => {
+        app.get('/orders', async (req, res) => {
             const orders = await ordersCollection.find().toArray();
             res.send(orders);
         })
@@ -42,6 +42,7 @@ async function run() {
             const orderData = req.body;
             const query = {
                 name: orderData.name,
+                img: orderData.img,
                 email: orderData.email,
                 quantity: orderData.quantity,
                 address: orderData.address,
